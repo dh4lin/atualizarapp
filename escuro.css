@@ -1,0 +1,51 @@
+:root {
+  "value": "default",
+  "name": "default",
+  "bgPrimary": "#0a0a0a",
+  "bgSecondary": "#0f0f0f",
+  "bgTertiary": "rgba(10, 10, 10, 0.95)",
+  "bgHover": "rgba(15, 15, 15, 0.95)",
+  "bgContainer": "rgba(10, 10, 10, 0.6)",
+  "bgContainerGradient": "rgba(10, 10, 10, 0.85), #0a0a0a",
+  "accent": "#323232",
+  "accentLight": "#323232",
+  "accentDark": "#1f1f1f",
+  "border": "rgba(50, 50, 50, 0.3)",
+  "borderHover": "rgba(50, 50, 50, 0.8)",
+  "text": "#c8c8c8",
+  "textSecondary": "#c8c8c8",
+  "gradient": "linear-gradient(135deg, #505050 0%, #323232 100%)",
+  "gradientLight": "linear-gradient(135deg, #646464 0%, #505050 100%)",
+  "shadow": "rgba(50, 50, 50, 0.4)",
+  "shadowHover": "rgba(50, 50, 50, 0.6)"
+}
+
+/* Select dropdown styling for dark theme */
+select {
+    background-color: rgba(10, 10, 10, 0.95) !important;
+    color: #fff !important;
+    border: 1px solid rgba(50, 50, 50, 0.3) !important;
+    border-radius: 3px;
+}
+
+select option {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+select option:checked {
+    background: linear-gradient(#888888, #888888);
+    background-color: #888888 !important;
+    color: #1a1a1a !important;
+}
+
+select:hover {
+    border-color: rgba(50, 50, 50, 0.8) !important;
+}
+
+select:focus {
+    outline: none;
+    border-color: #888888 !important;
+    box-shadow: 0 0 0 2px rgba(50, 50, 50, 0.3);
+}
+

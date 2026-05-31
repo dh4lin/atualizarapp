@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "values": {
+    "general": {
+      "useSteamLanguage": true,
+      "language": "pt-BR",
+      "donateKeys": true,
+      "theme": "original",
+      "fastDownload": true,
+      "morrenusApiKey": ""
+    }
+  }
+}
