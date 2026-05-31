@@ -3,7 +3,7 @@ Write-Host "Localizando Steam..." -ForegroundColor Cyan
 $steamPath = (Get-ItemProperty "HKCU:\Software\Valve\Steam" -ErrorAction SilentlyContinue).SteamPath
 
 if (-not $steamPath) {
-    Write-Host "Steam n„o encontrada!" -ForegroundColor Red
+    Write-Host "Steam n√£o encontrada!" -ForegroundColor Red
     Pause
     exit
 }
@@ -15,12 +15,12 @@ $publicPath = Join-Path $pluginPath "public"
 
 # Verificar se LuaTools existe
 if (-not (Test-Path $pluginPath)) {
-    Write-Host "LuaTools n„o encontrado!" -ForegroundColor Red
+    Write-Host "LuaTools n√£o encontrado!" -ForegroundColor Red
     Pause
     exit
 }
 
-# Criar diretÛrios se necess·rio
+# Criar diret√≥rios se necess√°rio
 New-Item -ItemType Directory -Force -Path "$publicPath\themes" | Out-Null
 New-Item -ItemType Directory -Force -Path "$steamPath\steamui\LuaTools\themes" | Out-Null
 New-Item -ItemType Directory -Force -Path "$pluginPath\backend\locales" | Out-Null
@@ -28,57 +28,55 @@ New-Item -ItemType Directory -Force -Path "$pluginPath\backend\locales" | Out-Nu
 Write-Host "Copiando arquivos..." -ForegroundColor Yellow
 
 # luatools.js
-Copy-Item ".\luatools.js" `
-    "$steamPath\steamui\LuaTools\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools.js" `
+    -OutFile "$steamPath\steamui\LuaTools\luatools.js"
 
-Copy-Item ".\luatools.js" `
-    "$publicPath\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools.js" `
+    -OutFile "$pluginsPath\luatools.js"
 
 # luatools-icon.png
-Copy-Item ".\luatools-icon.png" `
-    "$steamPath\steamui\LuaTools\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools-icon.png" `
+    -OutFile "$steamPath\steamui\LuaTools\luatools-icon.png"
 
-Copy-Item ".\luatools-icon.png" `
-    "$publicPath\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools-icon.png" `
+    -OutFile "$pluginsPath\luatools\luatools-icon.png"
 
 # escuro.css
-Copy-Item ".\escuro.css" `
-    "$publicPath\themes\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/escuro.css" `
+    -OutFile "$steamPath\steamui\LuaTools\themes\escuro.css"
 
-Copy-Item ".\escuro.css" `
-    "$steamPath\steamui\LuaTools\themes\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/escuro.css" `
+    -OutFile "$steamPath\plugins\luatools\themes"
 
 # themes.json
-Copy-Item ".\themes.json" `
-    "$publicPath\themes\" `
-    -Force
-
-# pt-BR.json
-Copy-Item ".\pt-BR.json" `
-    "$pluginPath\backend\locales\" `
-    -Force
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/themes.json" `
+    -OutFile "$pluginsPath\themes\themes.json"
 
 # backend completo
-if (Test-Path ".\backend") {
-    Remove-Item "$pluginPath\backend" `
-        -Recurse `
-        -Force `
-        -ErrorAction SilentlyContinue
+Invoke-WebRequest `
+    "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/backend" `
+    -OutFile "$env:TEMP\pasta.zip"
 
-    Copy-Item ".\backend" `
-        "$pluginPath\" `
-        -Recurse `
-        -Force
+Remove-Item "$pluginsPath\plugins\luatools" `
+    -Recurse `
+    -Force `
+    -ErrorAction SilentlyContinue
+
+Expand-Archive `
+    "$env:TEMP\pasta.zip" `
+    "$pluginsPath\plugins\luatools" `
+    -Force
 }
 
 Write-Host ""
-Write-Host "InstalaÁ„o concluÌda com sucesso!" -ForegroundColor Green
+Write-Host "Instala√ß√£o conclu√≠da com sucesso!" -ForegroundColor Green
 Write-Host ""
 Pause
 
