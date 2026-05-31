@@ -1,5 +1,4 @@
 Write-Host "Localizando Steam..." -ForegroundColor Cyan
-
 $steamPath = (Get-ItemProperty "HKCU:\Software\Valve\Steam" -ErrorAction SilentlyContinue).SteamPath
 
 if (-not $steamPath) {
@@ -10,6 +9,7 @@ if (-not $steamPath) {
 
 Write-Host "Steam encontrada em: $steamPath" -ForegroundColor Green
 
+# Definição dos caminhos base (Corrigido para usar a mesma variável sempre)
 $pluginPath = Join-Path $steamPath "plugins\luatools"
 $publicPath = Join-Path $pluginPath "public"
 
@@ -31,52 +31,48 @@ Write-Host "Copiando arquivos..." -ForegroundColor Yellow
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools.js" `
     -OutFile "$steamPath\steamui\LuaTools\luatools.js"
-
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools.js" `
-    -OutFile "$pluginsPath\luatools.js"
+    -OutFile "$pluginPath\luatools.js"
 
 # luatools-icon.png
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools-icon.png" `
     -OutFile "$steamPath\steamui\LuaTools\luatools-icon.png"
-
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/luatools-icon.png" `
-    -OutFile "$pluginsPath\luatools\luatools-icon.png"
+    -OutFile "$pluginPath\luatools-icon.png"
 
 # escuro.css
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/escuro.css" `
     -OutFile "$steamPath\steamui\LuaTools\themes\escuro.css"
-
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/escuro.css" `
-    -OutFile "$steamPath\plugins\luatools\themes"
+    -OutFile "$pluginPath\themes\escuro.css"
 
 # themes.json
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/themes.json" `
-    -OutFile "$pluginsPath\themes\themes.json"
+    -OutFile "$pluginPath\themes\themes.json"
 
-# backend completo
+# backend completo (Nota: baixar um repositório/pasta direto do GitHub via link bruto pode não funcionar se não for um arquivo .zip real hospedado lá)
 Invoke-WebRequest `
     "https://raw.githubusercontent.com/dh4lin/atualizarapp/main/backend" `
     -OutFile "$env:TEMP\pasta.zip"
 
-Remove-Item "$pluginsPath\plugins\luatools" `
+Remove-Item "$pluginPath\backend" `
     -Recurse `
     -Force `
     -ErrorAction SilentlyContinue
 
+# Extrai o conteúdo do zip diretamente para a pasta do backend
 Expand-Archive `
     "$env:TEMP\pasta.zip" `
-    "$pluginsPath\plugins\luatools" `
+    -DestinationPath "$pluginPath\backend" `
     -Force
-}
 
 Write-Host ""
 Write-Host "Instalação concluída com sucesso!" -ForegroundColor Green
 Write-Host ""
 Pause
-
